@@ -290,6 +290,29 @@ def upgrade():
         sa.PrimaryKeyConstraint("alert_id", "event_id"),
     )
 
+    op.create_table(
+        "tags",
+        sa.Column("id", UUIDType(binary=False), nullable=False),
+        sa.Column("name", sa.String(), nullable=False),
+        sa.PrimaryKeyConstraint("id")
+    )
+
+    op.create_table(
+        "cve_tags",
+        sa.Column("cve_id", UUIDType(binary=False), nullable=False),
+        sa.Column("tag_id", UUIDType(binary=False), nullable=False),
+        sa.ForeignKeyConstraint(
+            ["cve_id"],
+            ["cves.id"],
+        ),
+        sa.ForeignKeyConstraint(
+            ["tag_id"],
+            ["tags.id"],
+        ),
+        sa.PrimaryKeyConstraint("cve_id", "tag_id"),
+    )
+
+
 
 def downgrade():
     op.drop_table("alerts_events")

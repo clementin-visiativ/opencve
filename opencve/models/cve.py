@@ -2,6 +2,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 from opencve.extensions import db
 from opencve.models import BaseModel
+from opencve.models import cve_tags
 
 
 class Cve(BaseModel):
@@ -37,6 +38,7 @@ class Cve(BaseModel):
     events = db.relationship("Event", back_populates="cve")
     changes = db.relationship("Change", back_populates="cve")
     alerts = db.relationship("Alert", back_populates="cve")
+    tags = db.relationship("Tag", secondary=cve_tags, lazy="subquery", backref=db.backref('cves', lazy=True))
 
     # Index
     __table_args__ = (
