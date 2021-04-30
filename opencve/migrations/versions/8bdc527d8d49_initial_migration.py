@@ -293,6 +293,8 @@ def upgrade():
     op.create_table(
         "tags",
         sa.Column("id", UUIDType(binary=False), nullable=False),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
+        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("name", sa.String(), nullable=False),
         sa.PrimaryKeyConstraint("id")
     )

@@ -1,11 +1,12 @@
 from opencve.extensions import db
-from opencve.models import BaseModel
+from opencve.models import BaseModel, cves_tags
 
 class Tag(BaseModel):
     __tablename__ : "tags"
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+
+    cve = db.relationship("Cve", secondary=cves_tags)
 
     def __repr__(self):
         return "<Tag {}>".format(self.id)

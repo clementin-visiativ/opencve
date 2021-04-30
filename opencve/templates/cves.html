@@ -215,7 +215,9 @@ Vulnerabilities (CVE)
                             <td class="col-md-12 no-bordered" colspan="5">{{ cve.summary }}</td>
                         </tr>
                         <tr class="cve-tags">
+                            {% for tag in cve.tag %}
                             <td class="col-md-12 no bordered" colspan="5">{{cve.tags}}</td>
+                            {% endfor %}
                         </tr>
                         {% endfor %}
                     </table>
