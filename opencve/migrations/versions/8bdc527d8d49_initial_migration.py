@@ -296,6 +296,7 @@ def upgrade():
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("name", sa.String(), nullable=False),
+        sa.Column("user_id", UUIDType(binary=False), nullable=False),
         sa.PrimaryKeyConstraint("id")
     )
 
