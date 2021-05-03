@@ -61,6 +61,39 @@
                 </div>
             </div>
             {% endif %}
+            <div class="row">
+                <div class="col-md-9">
+                    {% if cve.has_tags() %}
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <div class="box-title">Tags</div>
+                        </div>
+                        <div class="box-body">
+                            <p class="alert alert-info">Some Tags.</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <div class="box-title">Tags</div>
+                        </div>
+                        <div class="box-body">
+                            <p class="alert alert-info">No Tags.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <div class="box-title">Add Tags</div>
+                        </div>
+                        <div class="box-body">
+                            <p class="alert alert-info">Click here to add tags</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="box box-primary">
                 <div class="box-header">
