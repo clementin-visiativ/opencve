@@ -61,40 +61,64 @@
                 </div>
             </div>
             {% endif %}
+            {% if current_user.is_authenticated %}
             <div class="row">
-                <div class="col-md-9">
-                    {% if cve.has_tags() %}
+                <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header">
                             <div class="box-title">Tags</div>
                         </div>
                         <div class="box-body">
-                            <p class="alert alert-info">Some Tags.</p>
+                            {% for tag in cve.tags_id %}
+                                    {% if tag.user_id == current_user.id %}
+                                        <span class="badge bg-info">{{ tag.name }}</span>
+                                    {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-                    {% else %}
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <div class="box-title">Tags</div>
-                        </div>
-                        <div class="box-body">
-                            <p class="alert alert-info">No Tags.</p>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
                 <div class="col-md-3">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <div class="box-title">Add Tags</div>
+                            <div class="box-title">Add Tag</div>
                         </div>
+
                         <div class="box-body">
-                            <p class="alert alert-info">Click here to add tags</p>
+                            <form method="GET">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Add tag" class="form-control" name="tag-plus"
+                                           value="{% if request.args.get('tag-plus') %}{{ request.args.get('tag-plus') }}{% endif %}">
+                                    <input type="hidden" name="cve" value={{cve.cve_id}}>
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-plus"></i></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <div class="box-title">Remove Tag</div>
+                        </div>
+
+                        <div class="box-body">
+                            <form method="GET">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Remove tag" class="form-control" name="tag-moins"
+                                           value="{% if request.args.get('tag-moins') %}{{ request.args.get('tag-moins') }}{% endif %}">
+                                    <input type="hidden" name="cve" value={{cve.cve_id}}>
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-minus"></i></button>
+                                    </span>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-
+            {% endif %}
             <div class="box box-primary">
                 <div class="box-header">
                     <div class="box-title">References</div>

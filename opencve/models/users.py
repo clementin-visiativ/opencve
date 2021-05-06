@@ -5,7 +5,8 @@ from sqlalchemy_utils import ChoiceType, JSONType
 
 from opencve.constants import FREQUENCIES_TYPES
 from opencve.extensions import db
-from opencve.models import BaseModel, users_products, users_vendors
+from opencve.models import BaseModel, users_products, users_vendors, cves_tags
+from opencve.models.tags import Tag
 
 
 def get_default_filters():
@@ -48,6 +49,7 @@ class User(BaseModel, UserMixin):
     products = db.relationship("Product", secondary=users_products)
     alerts = db.relationship("Alert", back_populates="user")
     reports = db.relationship("Report", back_populates="user")
+    tags = db.relationship("Tag")
 
     @property
     def is_confirmed(self):

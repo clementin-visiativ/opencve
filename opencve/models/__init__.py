@@ -78,11 +78,11 @@ alerts_events = db.Table(
 )
 
 cves_tags = db.Table(
-    "cve_tags",
+    "cves_tags",
     db.Column(
-        "cve_id", UUIDType(binary=False), db.ForeignKey("cves.cve_id"), primary_key=True
+        "cve_id", UUIDType(binary=False), db.ForeignKey("cves.id"), primary_key=True
     ),
     db.Column(
-        "tag_id", UUIDType(binary=False), db.ForeignKey("tag.id"), primary_key=True
+        "tag_id", UUIDType(binary=False), db.ForeignKey("tags.id"), primary_key=True
     ),
 )

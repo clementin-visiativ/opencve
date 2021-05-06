@@ -99,6 +99,13 @@
                                 <tr>
                                     <td class="col-md-12 no-bordered" colspan="5">{{ cve.summary }}</td>
                                 </tr>
+
+                                {% for tag in cve.tags %}
+                                    <tr class="cve-tags">
+                                        <td class="col-md-12 no bordered" colspan="5">Some tags</td>
+                                    </tr>
+                                {% endfor %}
+
                                 {% endfor %}
                             </table>
 

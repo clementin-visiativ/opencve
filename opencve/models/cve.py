@@ -2,6 +2,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 
 from opencve.extensions import db
 from opencve.models import BaseModel, cves_tags
+from opencve.models.tags import Tag
 from sqlalchemy import distinct
 
 
@@ -39,7 +40,8 @@ class Cve(BaseModel):
     events = db.relationship("Event", back_populates="cve")
     changes = db.relationship("Change", back_populates="cve")
     alerts = db.relationship("Alert", back_populates="cve")
-    tags = db.relationship("Tag", secondary=cves_tags)
+
+    tags_id = db.relationship("Tag", secondary=cves_tags, backref=db.backref('cves', lazy='dynamic'))
 
 
     # Index
@@ -60,10 +62,3 @@ class Cve(BaseModel):
         if self.cvss3:
             w += self.cvss3
         return w
-
-    def has_tags(self):
-        #count = db.query(cves_tags.count(distinct(cve.cve_id)))
-        if 0 :
-            return True
-        else :
-            return False

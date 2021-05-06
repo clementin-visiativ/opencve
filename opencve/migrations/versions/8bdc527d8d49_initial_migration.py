@@ -295,13 +295,18 @@ def upgrade():
         sa.Column("id", UUIDType(binary=False), nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
-        sa.Column("name", sa.String(), nullable=False),
+        sa.Column("name", sa.String(50), nullable=False),
         sa.Column("user_id", UUIDType(binary=False), nullable=False),
-        sa.PrimaryKeyConstraint("id")
+        sa.ForeignKeyConstraint(
+            ["user_id"],
+            ["users.id"],
+        ),
+        sa.UniqueConstraint("name", "user_id"),
+        sa.PrimaryKeyConstraint("id"),
     )
 
     op.create_table(
-        "cve_tags",
+        "cves_tags",
         sa.Column("cve_id", UUIDType(binary=False), nullable=False),
         sa.Column("tag_id", UUIDType(binary=False), nullable=False),
         sa.ForeignKeyConstraint(
