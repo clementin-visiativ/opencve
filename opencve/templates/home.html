@@ -99,19 +99,15 @@
                                 <tr>
                                     <td class="col-md-12 no-bordered" colspan="5">{{ cve.summary }}</td>
                                 </tr>
-
-                                {% if cve.tags_id and cve.tags_id[0].user_id == current_user.id %}
-                                    <tr class="cve-tags">
-                                        <td class="col-md-12 no-bordered" colspan="5">
-                                             {% for tag in cve.tags_id %}
-                                                {% if tag.user_id == current_user.id %}
-                                                    <span class="badge bg-info">{{ tag.name }}</span>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </td>
-                                    </tr>
-                                {% endif %}
-
+                                <tr class="cve-tags">
+                                    <td class="col-md-12 no-bordered" colspan="5">
+                                            {% for tag in cve.tags_id %}
+                                            {% if tag.user_id == current_user.id %}
+                                                <span class="badge bg-info">{{ tag.name }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
                                 {% endfor %}
                             </table>
 
