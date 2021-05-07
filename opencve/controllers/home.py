@@ -1,5 +1,5 @@
 from flask import current_app as app
-from flask import abort, redirect, render_template, request, url_for
+from flask import abort, redirect, render_template, request, url_for, escape
 from flask_paginate import Pagination
 from flask_user import current_user
 from sqlalchemy import and_
@@ -8,6 +8,8 @@ from sqlalchemy.dialects.postgresql import array
 from opencve.constants import PRODUCT_SEPARATOR
 from opencve.controllers.main import main, welcome
 from opencve.models.cve import Cve
+from opencve.models.tags import Tag
+from opencve.models import cves_tags
 
 
 @welcome.route("/welcome")
@@ -24,7 +26,7 @@ def terms():
     return render_template("terms.html")
 
 
-@main.route("/")
+@main.route("/", methods=["GET"])
 def home():
     # Allow customization of the homepage
     if not current_user.is_authenticated:
@@ -67,6 +69,22 @@ def home():
 
         if request.args.get("cvss").lower() == "critical":
             q = q.filter(and_(Cve.cvss3 >= 9.0, Cve.cvss3 <= 10.0))
+
+    # Filter by tag
+    if request.args.get("select-tag"):
+        if escape(request.args.get("select-tag")) == "no-tag":
+            for tag in current_user.tags:
+                q = q.filter(~Cve.tags_id.contains(tag))
+        elif escape(request.args.get("select-tag")) == "select-a-tag":
+            q = q
+        else:
+            name = escape(request.args.get("select-tag"))
+            tag = Tag.query.filter(Tag.name == name).filter(Tag.user_id == current_user.id).all()[0]
+            q = q.filter(Cve.tags_id.contains(tag))
+
+    # Filter by keyword
+    if request.args.get("search"):
+        q = q.filter(Cve.summary.like("%{}%".format(request.args.get("search"))))
 
     # Make the pagination
     page = request.args.get("page", type=int, default=1)
